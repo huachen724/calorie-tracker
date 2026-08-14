@@ -182,6 +182,18 @@ button {
   gap: 6px;
 }
 
+button.stat-tile {
+  appearance: none;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+button.stat-tile:active {
+  background: var(--surface-2);
+}
+
 .stat-tile .label {
   font-size: 12px;
   color: var(--text-secondary);
@@ -310,72 +322,186 @@ button {
   letter-spacing: 0.02em;
 }
 
+.data-table tbody tr {
+  cursor: pointer;
+}
+
 .data-table tbody tr:active {
   background: var(--surface-2);
 }
 
-.day-card {
+.day-row {
+  appearance: none;
+  width: 100%;
   border: 1px solid var(--border);
+  background: var(--surface-1);
   border-radius: var(--radius-md);
   margin-bottom: 10px;
-  overflow: hidden;
-}
-
-.day-card summary {
-  list-style: none;
-  cursor: pointer;
   padding: 13px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
 }
 
-.day-card summary::-webkit-details-marker {
-  display: none;
+.day-row:active {
+  background: var(--surface-2);
 }
 
-.day-card .date {
+.day-row .date {
   font-weight: 600;
   font-size: 14px;
 }
 
-.day-card .totals {
+.day-row .totals {
   font-size: 12px;
   color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
+  text-align: right;
+  line-height: 1.5;
 }
 
-.day-card .items {
-  border-top: 1px solid var(--border);
-  padding: 4px 14px 12px;
-}
-
-.day-card .item-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--gridline);
+.item-name {
+  color: var(--text-primary);
   font-size: 13px;
 }
 
-.day-card .item-row:last-child {
+.item-macros {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.back-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-primary);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.back-btn:active {
+  background: var(--surface-2);
+}
+
+.detail-date {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.detail-sublabel {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.item-row-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--gridline);
+}
+
+.item-row-detail:last-child {
   border-bottom: none;
 }
 
-.day-card .item-name {
-  color: var(--text-primary);
+.item-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
-.day-card .item-macros {
+.item-cal {
+  font-size: 13px;
   color: var(--text-secondary);
-  white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
-.day-card .item-actions {
-  padding-top: 8px;
-  text-align: right;
+.item-delete {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-muted);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.item-delete:active {
+  background: var(--status-critical);
+  color: white;
+  border-color: var(--status-critical);
+}
+
+.macro-bar {
+  display: flex;
+  height: 28px;
+  gap: 2px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.macro-bar-segment {
+  height: 100%;
+}
+
+.search-input {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.all-items-row {
+  appearance: none;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--gridline);
+  background: var(--surface-1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.all-items-row:last-child {
+  border-bottom: none;
+}
+
+.all-items-row:active {
+  background: var(--surface-2);
 }
 
 .import-textarea {
@@ -471,14 +597,29 @@ button {
 }
 
 .top-foods-list li {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
   border-bottom: 1px solid var(--gridline);
 }
 
 .top-foods-list li:last-child {
   border-bottom: none;
+}
+
+.top-foods-list button {
+  appearance: none;
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.top-foods-list button:active {
+  color: var(--series-calories);
 }
 
 .top-foods-list .count {

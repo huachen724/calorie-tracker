@@ -3,10 +3,10 @@ import { formatGrams, formatNumber } from '../lib/numeric';
 
 interface Props {
   days: DayRecord[];
-  onDelete: (key: string) => void;
+  onSelect: (key: string) => void;
 }
 
-export function DayList({ days, onDelete }: Props) {
+export function DayList({ days, onSelect }: Props) {
   const sorted = [...days].sort((a, b) => {
     if (a.iso && b.iso) return b.iso.localeCompare(a.iso);
     if (a.iso) return -1;
@@ -27,33 +27,21 @@ export function DayList({ days, onDelete }: Props) {
   return (
     <div>
       {sorted.map((day) => (
-        <details key={day.key} className="day-card">
-          <summary>
-            <div>
-              <div className="date">{day.label}</div>
-              {!day.iso && <div className="label" style={{ fontSize: 11, color: 'var(--text-muted)' }}>from "{day.rawKey}"</div>}
-            </div>
-            <div className="totals">
-              {formatNumber(day.totals.calories)} cal · {formatGrams(day.totals.protein)} protein · {formatGrams(day.totals.carbs)} carbs
-            </div>
-          </summary>
-          <div className="items">
-            {day.items.map((item, idx) => (
-              <div className="item-row" key={idx}>
-                <span className="item-name">{item.name}</span>
-                <span className="item-macros">
-                  {item.caloriesG != null ? `${formatNumber(item.caloriesG)} cal` : '—'} · {formatGrams(item.proteinG)}P ·{' '}
-                  {formatGrams(item.carbsG)}C
-                </span>
+        <button key={day.key} className="day-row" onClick={() => onSelect(day.key)}>
+          <div>
+            <div className="date">{day.label}</div>
+            {!day.iso && (
+              <div className="label" style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                from "{day.rawKey}"
               </div>
-            ))}
-            <div className="item-actions">
-              <button className="btn btn-danger" onClick={() => onDelete(day.key)}>
-                Delete day
-              </button>
-            </div>
+            )}
           </div>
-        </details>
+          <div className="totals">
+            {formatNumber(day.totals.calories)} cal · {formatGrams(day.totals.protein)} protein · {formatGrams(day.totals.carbs)} carbs
+            <br />
+            {day.items.length} {day.items.length === 1 ? 'item' : 'items'}
+          </div>
+        </button>
       ))}
     </div>
   );

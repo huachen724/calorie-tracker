@@ -81,16 +81,20 @@ export function computeStats(days: DayRecord[]): DietStats {
   const calorieValues = summaries.map((d) => d.calories);
   const byCalories = [...summaries].sort((a, b) => a.calories - b.calories);
 
-  const foodCounts = new Map<string, number>();
+  // Grouped case-insensitively so e.g. "Protein Bar" and "protein bar" count as
+  // the same food — the display name keeps whichever casing appeared first.
+  const foodCounts = new Map<string, { name: string; count: number }>();
   let totalItemsLogged = 0;
   for (const day of days) {
     for (const item of day.items) {
       totalItemsLogged++;
-      foodCounts.set(item.name, (foodCounts.get(item.name) ?? 0) + 1);
+      const normalized = item.name.trim().toLowerCase();
+      const existing = foodCounts.get(normalized);
+      if (existing) existing.count++;
+      else foodCounts.set(normalized, { name: item.name.trim(), count: 1 });
     }
   }
-  const topFoods = Array.from(foodCounts.entries())
-    .map(([name, count]) => ({ name, count }))
+  const topFoods = Array.from(foodCounts.values())
     .filter((f) => f.count > 1)
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
     .slice(0, 5);

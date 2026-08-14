@@ -3,9 +3,10 @@ import { formatNumber } from '../lib/numeric';
 
 interface Props {
   days: DayRecord[];
+  onSelect: (key: string) => void;
 }
 
-export function DataTable({ days }: Props) {
+export function DataTable({ days, onSelect }: Props) {
   const sorted = [...days].sort((a, b) => {
     if (a.iso && b.iso) return b.iso.localeCompare(a.iso);
     if (a.iso) return -1;
@@ -38,7 +39,7 @@ export function DataTable({ days }: Props) {
           </thead>
           <tbody>
             {sorted.map((day) => (
-              <tr key={day.key}>
+              <tr key={day.key} onClick={() => onSelect(day.key)}>
                 <td>{day.label}</td>
                 <td>{formatNumber(day.totals.calories)}</td>
                 <td>{formatNumber(day.totals.protein)}g</td>

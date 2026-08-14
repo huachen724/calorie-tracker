@@ -7,11 +7,12 @@ interface StatTileProps {
   unit?: string;
   trend?: number[];
   sublabel?: ReactNode;
+  onClick?: () => void;
 }
 
-export function StatTile({ label, value, unit, trend, sublabel }: StatTileProps) {
-  return (
-    <div className="stat-tile">
+export function StatTile({ label, value, unit, trend, sublabel, onClick }: StatTileProps) {
+  const content = (
+    <>
       <span className="label">{label}</span>
       <div className="value-row">
         <span className="value">
@@ -21,6 +22,16 @@ export function StatTile({ label, value, unit, trend, sublabel }: StatTileProps)
         {trend && trend.length >= 2 && <Sparkline values={trend} />}
       </div>
       {sublabel && <span className="label">{sublabel}</span>}
-    </div>
+    </>
   );
+
+  if (onClick) {
+    return (
+      <button className="stat-tile" onClick={onClick}>
+        {content}
+      </button>
+    );
+  }
+
+  return <div className="stat-tile">{content}</div>;
 }
